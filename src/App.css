@@ -1,0 +1,140 @@
+.App {
+  color: #fff1e6;
+  text-align: center;
+  font-size: large;
+}
+
+.loginInput {
+  color: rgb(250, 112, 135);
+  font-size: large;
+  width: 50%;
+  border-radius: 0.6em;
+  border: none;
+  padding-left: 10px;
+}
+
+.cardTitle:hover {
+  cursor: pointer;
+}
+
+.cardTitle:after {
+  display:block;
+  content: '';
+  border-bottom: 1px solid;
+  padding-top: 5px;
+  transform-origin: 0% 50%;
+  transform: scaleX(0);
+  transition: transform 250ms ease-in-out;
+}
+
+.cardTitle:hover:after {
+  transform: scaleX(1);
+}
+
+.recipeCard {
+  color: black;
+  font-weight: lighter;
+  text-align: left;
+  transition: all 0.2s ease-in;
+}
+
+.recipeCard:hover {
+  transform: translateY(-5px);
+}
+
+.searchTerm {
+  width: 30%;
+  border-radius: 0.6em;
+  color: rgb(250, 112, 135);
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-bottom: 30px;
+  outline: none;
+  border: none;
+  background-color: #fff1e6;
+}
+
+.filterButton {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  border-radius: 0.6em;
+  background-color: #fff1e6;
+  color: rgb(250, 112, 135);
+  padding-left: 10px;
+  padding-right: 10px;
+  opacity: 0;
+  width: 0;
+} 
+
+.searchButton {
+  opacity: 0;
+  width: 0;
+}
+
+.formInput {
+  width: 100%;
+  border: none;
+  outline: none;
+  border-radius: 0.6em;
+  background-color: #fff1e6;
+  color: rgb(250, 112, 135);
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+label {
+  font-size: larger;
+  font-weight: 500;
+  color: #fff1e6;
+  padding-bottom: 20px;
+  float: left;
+}
+
+.inputDiv {
+  margin-bottom: 30px;
+}
+
+.styledButton {
+  border: none;
+  margin-bottom: 30px;
+  padding-top: 0px;
+  padding-right: 10px;
+  padding-left: 10px;
+  border-radius: 1em;
+  background-color: #f3651e;
+  color: #fff1e6;
+  transition: all 0.2s ease-in;
+}
+
+.styledButton:hover {
+  color: #f3651e;
+  background-color:white;
+}
+
+.coolButton {
+  display:inline-block;
+  font-size: medium;
+  background-color: #f3651e;
+  padding:0.35em 1.2em;
+  border: 0.1em solid white;
+  margin:0 0.3em 0.5em 0;
+  margin-bottom: 30px;
+  border-radius:0.12em;
+  box-sizing: border-box;
+  text-decoration:none;
+  font-family:'Roboto',sans-serif;
+  font-weight:300;
+  color:white;
+  text-align:center;
+  transition: all 0.2s;
+}
+
+.coolButton:hover {
+  color: #f3651e;
+  background-color:white;
+}
+
+::placeholder {
+  color: rgb(250, 150, 167);
+}
