@@ -5,8 +5,7 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 import FadeIn from 'react-fade-in';
-import Home from './Home';
-import RecipePage from './RecipePage';
+import Main from './Main';
 import Authenticate from './Authenticate';
 
 const firebaseConfig = {
@@ -114,41 +113,21 @@ const App: React.FC = () => {
     setPass('')
     setShowError(false)
   }
-
-  const authenticateHandler = () => {
-    setAuthenticate(false)
-  }
-
+  
   if (isLoggedIn) {
     return (
-      <div className="App">
-        <FadeIn><div>
-          <button className='coolButton' style={{float: 'right', marginTop: '55px', marginRight: '10%'}} onClick={logOut}>Log out</button>
-          <h1 style={{marginLeft: '17%', paddingTop: 50, paddingBottom: '30px', fontWeight: 300}}>Gutchi Recipes</h1>
-          </div></FadeIn>
-        {showRecipePage ? <RecipePage recipe={recipeToShow} handleSetRecipeToShow={handleSetRecipeToShow} 
-        handleSetShowRecipePage={handleSetShowRecipePage}/> : <FadeIn><Home isLoggedIn={isLoggedIn} 
-        recipeToShow={recipeToShow} handleSetRecipeToShow={handleSetRecipeToShow} 
-        showRecipePage={showRecipePage} handleSetShowRecipePage={handleSetShowRecipePage} recipes={recipes}/></FadeIn>}
-      </div>
+      <Main logOut={logOut} showRecipePage={showRecipePage} recipeToShow={recipeToShow} handleSetRecipeToShow={handleSetRecipeToShow} 
+      handleSetShowRecipePage={handleSetShowRecipePage} isLoggedIn={isLoggedIn} recipes={recipes}/>
     );
   } else {
     return (
       <div>
-        {authenticate ? <div>
-        <Authenticate authUser={authUser} emailHandler={emailHandler} authenticateHandler={authenticateHandler}
+        {authenticate ? <FadeIn><div>
+        <Authenticate authUser={authUser} emailHandler={emailHandler} setAuthenticate={setAuthenticate}
         passHandler={passHandler} email={email} password={password} showError={showError}/>
-      </div> : 
-      <div className="App">
-      <FadeIn><div>
-        <button className='coolButton' style={{float: 'right', marginTop: '55px', marginRight: '10%'}} onClick={() => setAuthenticate(true)}>Log in</button>
-        <h1 style={{marginLeft: '17%', paddingTop: 50, paddingBottom: '30px', fontWeight: 300}}>Gutchi Recipes</h1>
-        </div></FadeIn>
-      {showRecipePage ? <RecipePage recipe={recipeToShow} handleSetRecipeToShow={handleSetRecipeToShow} 
-      handleSetShowRecipePage={handleSetShowRecipePage}/> : <FadeIn><Home isLoggedIn={isLoggedIn}
-      recipeToShow={recipeToShow} handleSetRecipeToShow={handleSetRecipeToShow} 
-      showRecipePage={showRecipePage} handleSetShowRecipePage={handleSetShowRecipePage} recipes={recipes}/></FadeIn>}
-    </div>
+      </div></FadeIn> : 
+      <Main showRecipePage={showRecipePage} recipeToShow={recipeToShow} handleSetRecipeToShow={handleSetRecipeToShow} 
+      handleSetShowRecipePage={handleSetShowRecipePage} setAuthenticate={setAuthenticate} isLoggedIn={isLoggedIn} recipes={recipes}/>
       }
       </div>
       

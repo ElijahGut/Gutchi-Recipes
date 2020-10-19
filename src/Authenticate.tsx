@@ -7,14 +7,14 @@ interface Props {
     authUser: any,
     emailHandler: any,
     passHandler: any,
-    authenticateHandler: any,
+    setAuthenticate: any,
     email: string,
     password: string,
     showError: boolean
 }
 
 const Authenticate:React.FC<Props> = ({authUser,
-    emailHandler, passHandler, authenticateHandler, email, password, showError}) => {
+    emailHandler, passHandler, setAuthenticate, email, password, showError}) => {
    
     const updateEmailInput = (e:ChangeEvent<HTMLInputElement>) => {
       e.preventDefault()
@@ -38,7 +38,7 @@ const Authenticate:React.FC<Props> = ({authUser,
             <div style={{marginBottom: '30px'}}><input className='loginInput' name='emailInput' type='email' placeholder='Email address' onChange={updateEmailInput}></input></div>
             <div><input className='loginInput' name='passwordInput' type='password' placeholder='Password' onChange={updatePassInput}></input></div>
             {showError ? <p style={{color: 'white', paddingTop: '20px'}}>Incorrect details!</p> : null}
-            <button className='coolButton' type='button' style={{marginTop:'30px'}} onClick={authenticateHandler}><FontAwesomeIcon icon={faCaretLeft}/></button>
+            <button className='coolButton' type='button' style={{marginTop:'30px'}} onClick={() => setAuthenticate(false)}><FontAwesomeIcon icon={faCaretLeft}/></button>
             <button className='coolButton' type='submit' style={{marginTop:'30px'}}>Log In</button>
         </form>
         </Container>

@@ -1,11 +1,10 @@
-import React, { ChangeEvent } from 'react'
+import React from 'react'
 import { useState } from 'react'
 import { IRecipe } from './App'
 import Recipes from './Recipes'
 import NewRecipe from './NewRecipe'
 import FadeIn from 'react-fade-in'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons'
+import Search from './Search'
 
 interface Props {
     recipes: Array<IRecipe>,
@@ -60,15 +59,8 @@ const Home: React.FC<Props> = ({recipes, handleSetRecipeToShow, handleSetShowRec
     if (selectedMealType !== '') {
         return (
             <div>
-                <FontAwesomeIcon icon={faFilter}/>
-                <select className='filterButton' onChange={(e:ChangeEvent<HTMLSelectElement>) => setSelectedMealType(e.currentTarget.value)} value={selectedMealType}>
-                    <option value=''>None</option>
-                    <option value='appetiser'>Appetiser</option>
-                    <option value='main course'>Main course</option>
-                    <option value='dessert'>Dessert</option>
-                </select>
-                <input id='search' type='text' className='searchTerm' placeholder='Search for a recipe' onKeyUp={handlePress} onChange={handleChange}></input>
-                <button type='button' className='searchButton' onClick={handleClick}>SSS</button><FontAwesomeIcon icon={faSearch}/>
+                <Search handlePress={handlePress} handleClick={handleClick} handleChange={handleChange} 
+                selectedMealType={selectedMealType} setSelectedMealType={setSelectedMealType}/>
                 <Recipes recipes={searchByMealType(selectedMealType, recipes)} handleSetRecipeToShow={handleSetRecipeToShow} 
                     handleSetShowRecipePage={handleSetShowRecipePage} 
                     headerString={selectedMealType.charAt(0).toUpperCase()+selectedMealType.slice(1)+'s'}/>
@@ -78,8 +70,8 @@ const Home: React.FC<Props> = ({recipes, handleSetRecipeToShow, handleSetShowRec
     } else if (showSearch) {
         return (
             <div>
-                <input id='search' type='text' className='searchTerm' placeholder='Search for a recipe' onKeyUp={handlePress} onChange={handleChange}></input>
-                <button type='button' className='searchButton' onClick={handleClick}>SSS</button><FontAwesomeIcon icon={faSearch}/>
+                <Search handlePress={handlePress} handleClick={handleClick} handleChange={handleChange} 
+                selectedMealType={selectedMealType} setSelectedMealType={setSelectedMealType}/>
                 <div>
                     <Recipes recipes={searchByString(searchVal.toLowerCase(), recipes)} handleSetRecipeToShow={handleSetRecipeToShow} 
                     handleSetShowRecipePage={handleSetShowRecipePage} 
@@ -93,15 +85,8 @@ const Home: React.FC<Props> = ({recipes, handleSetRecipeToShow, handleSetShowRec
             <div>
                 {showForm ? <FadeIn><NewRecipe/></FadeIn>
                 : <div>
-                <FontAwesomeIcon icon={faFilter}/>
-                <select className='filterButton' onChange={(e:ChangeEvent<HTMLSelectElement>) => setSelectedMealType(e.currentTarget.value)} value={selectedMealType}>
-                    <option value=''>None</option>
-                    <option value='appetiser'>Appetiser</option>
-                    <option value='main course'>Main course</option>
-                    <option value='dessert'>Dessert</option>
-                </select>
-                <input id='search' type='text' className='searchTerm' placeholder='Search for a recipe' onKeyUp={handlePress} onChange={handleChange}></input>
-                <button type='button' className='searchButton' onClick={handleClick}>SSS</button><FontAwesomeIcon icon={faSearch}/>        
+               <Search handlePress={handlePress} handleClick={handleClick} handleChange={handleChange} 
+                selectedMealType={selectedMealType} setSelectedMealType={setSelectedMealType}/>
                 <Recipes recipes={recipes} handleSetRecipeToShow={handleSetRecipeToShow} 
                     handleSetShowRecipePage={handleSetShowRecipePage} headerString={'Browse'}/>
                 {isLoggedIn ? <FadeIn delay={600}><button type='button' className='styledButton' 
