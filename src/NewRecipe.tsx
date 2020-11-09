@@ -71,7 +71,7 @@ class NewRecipe extends React.Component<Props, State> {
         const finalIngredients = this.getIngredients()
 
         if (this.state.image.length === 0) {
-            db.collection('recipes').doc(this.state.name).set({
+            db.collection('recipes').doc(this.state.name.toLowerCase()).set({
                 name: this.state.name.trim(),
                 description: this.state.description.trim(),
                 meal_type: this.state.meal_type,
@@ -81,7 +81,7 @@ class NewRecipe extends React.Component<Props, State> {
                 cooking_time: parseInt(this.state.cooking_time.trim())
             })   
         } else {
-            db.collection('recipes').doc(this.state.name).set({
+            db.collection('recipes').doc(this.state.name.toLowerCase()).set({
                 name: this.state.name.trim(),
                 description: this.state.description.trim(),
                 meal_type: this.state.meal_type,
@@ -136,7 +136,7 @@ class NewRecipe extends React.Component<Props, State> {
             ({preview_method: !prevState.preview_method }))
         const splitRegex = /\n+/g
         if (this.state.method_input.length !== 0) {
-            let methodInputCopy = this.state.method_input
+            let methodInputCopy = this.state.method_input.trim()
             this.setState({method: methodInputCopy.split(splitRegex)})
         } 
     }
@@ -155,7 +155,7 @@ class NewRecipe extends React.Component<Props, State> {
     getIngredients = () => {
         const splitRegex = /\n+/g
         if (this.state.ingredients_input.length !== 0) {
-            let ingredientsInputCopy = this.state.ingredients_input
+            let ingredientsInputCopy = this.state.ingredients_input.trim()
             let finalIngredients = ingredientsInputCopy.split(splitRegex)
             return finalIngredients
         } 

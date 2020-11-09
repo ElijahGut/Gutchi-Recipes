@@ -25,7 +25,7 @@ const Recipe: React.FC<Props> = ({recipe, handleSetRecipeToShow, handleSetShowRe
     const cardImgHeight = '200px';
     const maxNameLength = 20;
 
-    const articleWords = ['the', 'of', 'and', 'a', 'with', 'on']
+    const articleWords = ['the', 'of', 'and', 'a', 'with', 'on', '&']
 
     const capitaliseName = (recipeName: string) => {
         let result = ''
@@ -76,7 +76,7 @@ const Recipe: React.FC<Props> = ({recipe, handleSetRecipeToShow, handleSetShowRe
                 <CardTitle className='cardTitle' onClick={renderRecipePage} onMouseEnter={() => setShowLongTitle(true)} 
                     onMouseLeave={() => setShowLongTitle(false)} style={{fontSize: 'larger', fontWeight: 'bold'}}>
                     {(recipe.name.length < maxNameLength || showLongTitle === true) ? capitaliseName(recipe.name) 
-                    : generateShortTitle(capitaliseName(recipe.name.slice(0,maxNameLength)))}</CardTitle>
+                    : generateShortTitle(capitaliseName(recipe.name))}</CardTitle>
                 {seeDesc ? <CardText>{capitaliseDesc(recipe.description)}</CardText> : null}
                 <CardText className='text-muted'><FontAwesomeIcon style={{marginRight: 15}} 
                 icon={faClock}/><small>{recipe.cooking_time+'min'}</small></CardText>
