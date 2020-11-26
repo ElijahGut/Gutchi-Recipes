@@ -62,7 +62,6 @@ class AutomaticRecipe extends React.Component<Props, State> {
             }
 
             if (rawJSON) {
-                console.log(rawJSON)
                 let jsonData;
 
                 if (Array.isArray(rawJSON)) {
@@ -136,8 +135,12 @@ class AutomaticRecipe extends React.Component<Props, State> {
 
     scrape = async (url:string|undefined) => {
         if (url) {
-            const apiURL = 'https://cors-anywhere.herokuapp.com/'
-            let res = await fetch(apiURL+url)
+            const proxyURL = 'https://cors-anywhere.herokuapp.com/'
+            let res = await fetch(proxyURL+url, {
+                headers: {
+                    'Content-Type': 'text/html'
+                }
+            })
             let textRes = await res.text()
             this.process(textRes)
         }  
