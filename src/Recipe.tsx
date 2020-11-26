@@ -23,42 +23,34 @@ const Recipe: React.FC<Props> = ({recipe, handleSetRecipeToShow, handleSetShowRe
     const [seeDesc, setSeeDesc] = useState(false)
 
     const cardImgHeight = '200px';
-    const maxNameLength = 20;
+    const maxNameLength = 15;
 
-    const articleWords = ['the', 'of', 'and', 'a', 'with', 'on', '&']
+    const forbidden = ['&amp;', 'recipe']
+    const articleWords = ['the', 'of', 'and', 'a', 'with', 'on', '&', 'by']
 
-    const capitaliseName = (recipeName: string) => {
+    const capitaliseName = (recipeName: (string|undefined)) => {
         let result = ''
-        const recipeNameSplit = recipeName.split(' ')
-
-        for (let i=0;i<recipeNameSplit.length;i++) {
-            let word = recipeNameSplit[i];
-            if (!articleWords.includes(word.toLowerCase())) {
-                let capitalisedWord = word.charAt(0).toUpperCase()+word.slice(1)
-                result += capitalisedWord += ' '  
-            } else {
-                result += word += ' '
+        if (recipeName) {
+            const recipeNameSplit = recipeName.split(' ')
+            for (let i=0;i<recipeNameSplit.length;i++) {
+                let word = recipeNameSplit[i];
+                if (!forbidden.includes(word)) {
+                    if (!articleWords.includes(word) || (i === 0 && (word === 'the' || word === 'a'))) {
+                        
+                        let capitalisedWord = word.charAt(0).toUpperCase()+word.slice(1)
+                        result += capitalisedWord += ' ' 
+                        
+                    } else {
+                        result += word += ' '
+                    }
+                }
             }
-        }
-        return result.trim();
+            return result.trim();
+        } 
     }
 
     const capitaliseDesc = (desc: string) => {
         return desc.charAt(0).toUpperCase()+desc.slice(1)
-    }
-
-    const generateShortTitle = (title: string) => {
-        let shortTitle = ''
-        const titleSplit = title.split(' ')
-
-
-        for (let i=0;i<titleSplit.length;i++) {
-            let word = titleSplit[i]
-            if (shortTitle.length+(word.length+1) < maxNameLength && !articleWords.includes(word)) {
-                shortTitle += word += ' '
-            }
-        }
-        return shortTitle.trim()
     }
 
     const renderRecipePage = () => {
@@ -75,8 +67,8 @@ const Recipe: React.FC<Props> = ({recipe, handleSetRecipeToShow, handleSetShowRe
             <CardBody>
                 <CardTitle className='cardTitle' onClick={renderRecipePage} onMouseEnter={() => setShowLongTitle(true)} 
                     onMouseLeave={() => setShowLongTitle(false)} style={{fontSize: 'larger', fontWeight: 'bold'}}>
-                    {(recipe.name.length < maxNameLength || showLongTitle === true) ? capitaliseName(recipe.name) 
-                    : generateShortTitle(capitaliseName(recipe.name))}</CardTitle>
+                    {(recipe.name.length <= maxNameLength || showLongTitle === true) ? capitaliseName(recipe.name) 
+                    : capitaliseName(recipe.short_name)}</CardTitle>
                 {seeDesc ? <CardText>{capitaliseDesc(recipe.description)}</CardText> : null}
                 <CardText className='text-muted'><FontAwesomeIcon style={{marginRight: 15}} 
                 icon={faClock}/><small>{recipe.cooking_time+'min'}</small></CardText>

@@ -19,7 +19,7 @@ const Home: React.FC<Props> = ({recipes, handleSetRecipeToShow, handleSetShowRec
     const [inputVal, setInputVal] = useState('')
     const [searchVal, setSearchVal] = useState('')
     const [showSearch, setShowSearch] = useState(false)
-    const [showForm, setShowForm] = useState(false)
+    const [showNew, setShowNew] = useState(false)
     const [selectedMealType, setSelectedMealType] = useState('');
 
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
@@ -83,14 +83,14 @@ const Home: React.FC<Props> = ({recipes, handleSetRecipeToShow, handleSetShowRec
     } else {
         return (
             <div>
-                {showForm ? <FadeIn><NewRecipe/></FadeIn>
+                {showNew ? <FadeIn><NewRecipe/></FadeIn>
                 : <div>
                <Search handlePress={handlePress} handleClick={handleClick} handleChange={handleChange} 
                 selectedMealType={selectedMealType} setSelectedMealType={setSelectedMealType}/>
                 <Recipes recipes={recipes} handleSetRecipeToShow={handleSetRecipeToShow} 
                     handleSetShowRecipePage={handleSetShowRecipePage} headerString={'Browse'}/>
                 {isLoggedIn ? <FadeIn delay={600}><button type='button' className='styledButton' 
-                onClick={() => setShowForm(true)}>Add a new recipe</button></FadeIn> :  null}
+                onClick={() => setShowNew(true)}>Add a new recipe</button></FadeIn> :  null}
             </div>}
             </div>
         )

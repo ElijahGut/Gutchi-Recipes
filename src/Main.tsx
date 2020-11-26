@@ -11,7 +11,6 @@ interface Props {
     setAuthenticate?: any,
     showRecipePage: boolean,
     recipeToShow: IRecipe,
-
     isLoggedIn: boolean,
     recipes: Array<IRecipe>
 }
