@@ -99,6 +99,8 @@ class AutomaticRecipe extends React.Component<Props, State> {
 
                 if (typeof(rawImage) === 'string') {
                     this.setState({image: rawImage})
+                } else if (Array.isArray(rawImage)) {
+                    this.setState({image: rawImage[0]})
                 } else {
                     this.setState({image: rawImage.url})
                 }
@@ -138,7 +140,7 @@ class AutomaticRecipe extends React.Component<Props, State> {
             const proxyURL = 'https://cors-anywhere.herokuapp.com/'
             let res = await fetch(proxyURL+url, {
                 headers: {
-                    'Content-Type': 'text/html'
+                    'Content-Type': 'text/plain'
                 }
             })
             let textRes = await res.text()
