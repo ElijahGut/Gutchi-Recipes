@@ -16,6 +16,7 @@ interface Props {
 const RecipePage: React.FC<Props> = ({recipe, handleSetRecipeToShow, handleSetShowRecipePage}) => {
 
     const [ingredientCardHeight, setIngCardHeight] = useState<number>(0)
+    const [scrollOverFlow, setScrollOverflow] = useState<boolean>(false)
 
     const backToBrowse = () => {
         handleSetRecipeToShow(false)
@@ -23,24 +24,28 @@ const RecipePage: React.FC<Props> = ({recipe, handleSetRecipeToShow, handleSetSh
         window.scrollTo(0,0)
     }
 
-    // refactor
+    const forbidden = ['&amp;', 'recipe']
+    const articleWords = ['the', 'of', 'and', 'a', 'with', 'on', '&', 'by']
 
-    const articleWords = ['the', 'of', 'and', 'a', 'with', 'on']
-
-    const capitaliseName = (recipeName: string) => {
+    const capitaliseName = (recipeName: (string|undefined)) => {
         let result = ''
-        const recipeNameSplit = recipeName.split(' ')
-
-        for (let i=0;i<recipeNameSplit.length;i++) {
-            let word = recipeNameSplit[i];
-            if (!articleWords.includes(word.toLowerCase())) {
-                let capitalisedWord = word.charAt(0).toUpperCase()+word.slice(1)
-                result += capitalisedWord += ' '  
-            } else {
-                result += word += ' '
+        if (recipeName) {
+            const recipeNameSplit = recipeName.split(' ')
+            for (let i=0;i<recipeNameSplit.length;i++) {
+                let word = recipeNameSplit[i];
+                if (!forbidden.includes(word)) {
+                    if (!articleWords.includes(word) || (i === 0 && (word === 'the' || word === 'a'))) {
+                        
+                        let capitalisedWord = word.charAt(0).toUpperCase()+word.slice(1)
+                        result += capitalisedWord += ' ' 
+                        
+                    } else {
+                        result += word += ' '
+                    }
+                }
             }
-        }
-        return result.trim();
+            return result.trim();
+        } 
     }
 
     const renderIngredients = () => {
@@ -65,12 +70,20 @@ const RecipePage: React.FC<Props> = ({recipe, handleSetRecipeToShow, handleSetSh
                         <FontAwesomeIcon style={{marginLeft: 15, marginRight: 10}} icon={faUtensils}/>{recipe.meal_type.charAt(0).toUpperCase()+recipe.meal_type.slice(1)}
                     </div>
                     <div style={{display: 'flex', justifyContent: 'center'}}>
-                        <div style={{position: 'sticky', top: 20, float: 'left', height: ingredientCardHeight, width: '80%', border: '1px solid white', 
-                        borderRadius: '0.6em', padding: 15, paddingLeft: 20, paddingRight: 20, marginTop: 70, marginRight: 60}}>
+                        <div style={{position: 'sticky', top: 20, float: 'left', height: ingredientCardHeight, width: '100%', border: '1px solid white', 
+                        borderRadius: '0.6em', padding: 15, paddingLeft: 20, paddingRight: 20, marginTop: 70, marginRight: 60, overflow: scrollOverFlow 
+                        ? 'scroll' : 'visible'}}>
                             <h2 style={{textAlign: 'left'}}>Ingredients</h2>
                             <ul ref={el=> {
                                 if (!el) return;
-                                setIngCardHeight(el.getBoundingClientRect().height+80)
+                                let candidateHeight = el.getBoundingClientRect().height+80
+                                if (candidateHeight > 0.8*window.innerHeight) {
+                                    setIngCardHeight(candidateHeight/2) 
+                                    setScrollOverflow(true) 
+                                } else {
+                                    setIngCardHeight(candidateHeight)
+                                    setScrollOverflow(false)
+                                }
                             }}>
                                 {renderIngredients()}
                             </ul>

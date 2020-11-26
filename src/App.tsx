@@ -23,6 +23,7 @@ const auth = firebase.auth();
 
 export interface IRecipe {
   name: string,
+  short_name?: string,
   description: string,
   method: Array<string>,
   ingredients: Array<string>,
@@ -35,6 +36,7 @@ const App: React.FC = () => {
 
   const initialRecipe: IRecipe = {
     name: '',
+    short_name: '',
     description: '',
     method: [],
     ingredients: [],
