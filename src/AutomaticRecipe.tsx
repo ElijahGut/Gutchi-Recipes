@@ -1,8 +1,9 @@
 import React from 'react'
 import { Container } from 'reactstrap'
+import { AllHtmlEntities } from 'html-entities'
 import moment from 'moment'
 import ManualRecipe from './ManualRecipe'
-import { AllHtmlEntities } from 'html-entities'
+
 
 interface Props {
 }
@@ -49,6 +50,7 @@ class AutomaticRecipe extends React.Component<Props, State> {
         const domParser = new DOMParser()
         const htmlDecoder = new AllHtmlEntities()
         const doc = domParser.parseFromString(data, 'text/html')
+        console.log(doc)
         const ldJSON = doc.querySelector('script[type="application/ld+json"]')
         if (ldJSON) {
             this.setState({show_error: false})
@@ -137,14 +139,9 @@ class AutomaticRecipe extends React.Component<Props, State> {
 
     scrape = async (url:string|undefined) => {
         if (url) {
-            const proxyURL = 'https://cors-anywhere.herokuapp.com/'
-            let res = await fetch(proxyURL+url, {
-                headers: {
-                    'Content-Type': 'text/plain'
-                }
-            })
-            let textRes = await res.text()
-            this.process(textRes)
+            let res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`)
+            let jsonRes = await res.json()
+            this.process(jsonRes.contents)
         }  
         this.setState({show_message: true, show_browse: false})
         this.setState({clicked: false})
