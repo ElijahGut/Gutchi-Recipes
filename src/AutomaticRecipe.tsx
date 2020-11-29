@@ -115,11 +115,8 @@ class AutomaticRecipe extends React.Component<Props, State> {
                     } else {
                         this.setState({image: rawImage.url})
                     }
-                } else {
-
-                }
+                } 
                 
-
                 if (rawDescription) {
                     this.setState({description: htmlDecoder.decode(rawDescription.replace(/<[^>]*>/g, ''))})
                 }
