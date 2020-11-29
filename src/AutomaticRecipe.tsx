@@ -50,9 +50,9 @@ class AutomaticRecipe extends React.Component<Props, State> {
         const domParser = new DOMParser()
         const htmlDecoder = new AllHtmlEntities()
         const doc = domParser.parseFromString(data, 'text/html')
-        console.log(doc)
         const ldJSON = doc.querySelector('script[type="application/ld+json"]')
         if (ldJSON) {
+
             this.setState({show_error: false})
             let rawJSON;
 
@@ -75,6 +75,14 @@ class AutomaticRecipe extends React.Component<Props, State> {
                     }
                 } else {
                     jsonData = rawJSON
+                    if (jsonData.hasOwnProperty('@graph')) {
+                        let graph = jsonData['@graph']
+                        for (let node of graph) {
+                            if (node['@type'] === 'Recipe') {
+                                jsonData = node
+                            }
+                        }
+                    }
                 }
 
                 let rawMethod = jsonData.recipeInstructions
@@ -99,13 +107,18 @@ class AutomaticRecipe extends React.Component<Props, State> {
                     this.setState({method: finalMethod})
                 }
 
-                if (typeof(rawImage) === 'string') {
-                    this.setState({image: rawImage})
-                } else if (Array.isArray(rawImage)) {
-                    this.setState({image: rawImage[0]})
+                if (rawImage) {
+                    if (typeof(rawImage) === 'string') {
+                        this.setState({image: rawImage})
+                    } else if (Array.isArray(rawImage)) {
+                        this.setState({image: rawImage[0]})
+                    } else {
+                        this.setState({image: rawImage.url})
+                    }
                 } else {
-                    this.setState({image: rawImage.url})
+
                 }
+                
 
                 if (rawDescription) {
                     this.setState({description: htmlDecoder.decode(rawDescription.replace(/<[^>]*>/g, ''))})
