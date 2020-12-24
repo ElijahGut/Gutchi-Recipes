@@ -14,7 +14,8 @@ interface Props {
     ingredients?: Array<string>,
     method?: Array<string>,
     cooking_time?: string,
-    clearAutomatic?: any
+    clearAutomatic?: any,
+    yield?: string
 }
 
 export interface State {
@@ -30,7 +31,8 @@ export interface State {
     cooking_time: string,
     preview_ingredients: boolean,
     preview_method: boolean,
-    show_length_error: boolean
+    show_length_error: boolean,
+    yield: string
 }
 
 class ManualRecipe extends React.Component<Props, State> {
@@ -50,7 +52,8 @@ class ManualRecipe extends React.Component<Props, State> {
             cooking_time: this.props.cooking_time ? this.props.cooking_time : '',
             preview_ingredients: false,
             preview_method: false,
-            show_length_error: false
+            show_length_error: false,
+            yield: this.props.yield ? this.props.yield : ''
         }
     }
 
@@ -97,7 +100,8 @@ class ManualRecipe extends React.Component<Props, State> {
                     ingredients: finalIngredients?.filter(ing => ing !== ''),
                     method: finalMethod?.filter(step => step !== ''),
                     image: 'https://images.squarespace-cdn.com/content/v1/57879a6cbebafb879f256735/1579721909133-R2KSZ8VGDGBI90DYATBK/ke17ZwdGBToddI8pDm48kLkXF2pIyv_F2eUT9F60jBl7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0iyqMbMesKd95J-X4EagrgU9L3Sa3U8cogeb0tjXbfawd0urKshkc5MgdBeJmALQKw/header4.jpg?format=2500w',
-                    cooking_time: parseInt(this.state.cooking_time.trim())
+                    cooking_time: parseInt(this.state.cooking_time.trim()),
+                    yield: parseInt(this.state.yield.trim())
                 })   
             } else {
                 db.collection('recipes').doc(this.state.name.toLowerCase()).set({
@@ -108,7 +112,8 @@ class ManualRecipe extends React.Component<Props, State> {
                     ingredients: finalIngredients?.filter(ing => ing !== ''),
                     method: finalMethod?.filter(step => step !== ''),
                     image: this.state.image.trim(),
-                    cooking_time: parseInt(this.state.cooking_time.trim())
+                    cooking_time: parseInt(this.state.cooking_time.trim()),
+                    yield: parseInt(this.state.yield.trim())
                 })
             }
             alert('Recipe added successfully!')
@@ -160,6 +165,10 @@ class ManualRecipe extends React.Component<Props, State> {
 
     handleCookingTimeChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         this.setState({cooking_time: e.currentTarget.value})
+    }
+
+    handleServingsChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+        this.setState({yield: e.currentTarget.value})
     }
 
     getMethod = () => {
@@ -277,6 +286,11 @@ class ManualRecipe extends React.Component<Props, State> {
                                 <label htmlFor='cooking_time'>Cooking Time (in minutes)</label><br/>
                                 <input className='formInput' required name='cooking_time' type='number' step={5} 
                                 onChange={this.handleCookingTimeChange} value={this.state.cooking_time}></input>
+                            </div>
+                            <div className='inputDiv'>
+                                <label htmlFor='servings'>Servings</label><br/>
+                                <input className='formInput' required name='servings' type='number'
+                                onChange={this.handleServingsChange} value={this.state.yield}></input>
                             </div>
                             <div className='inputDiv'>
                                 <label htmlFor='image'>Photo URL (use the preview to double-check your photo URL)</label><br/>

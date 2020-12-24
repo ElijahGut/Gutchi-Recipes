@@ -19,7 +19,6 @@ interface Props {
 const Recipe: React.FC<Props> = ({recipe, handleSetRecipeToShow, handleSetShowRecipePage}) => {
 
     const [isHovered, setHover] = useState(false)
-    const [showLongTitle, setShowLongTitle] = useState(false)
     const [seeDesc, setSeeDesc] = useState(false)
 
     const cardImgHeight = '200px';
@@ -65,9 +64,8 @@ const Recipe: React.FC<Props> = ({recipe, handleSetRecipeToShow, handleSetShowRe
             <Card>
             <CardImg style={{objectFit: 'cover'}} top width='100%' height={cardImgHeight} src={recipe.image} alt="Card image cap" />
             <CardBody>
-                <CardTitle className='cardTitle' onClick={renderRecipePage} onMouseEnter={() => setShowLongTitle(true)} 
-                    onMouseLeave={() => setShowLongTitle(false)} style={{fontSize: 'larger', fontWeight: 'bold'}}>
-                    {(recipe.name.length <= maxNameLength || showLongTitle === true) ? capitaliseName(recipe.name) 
+                <CardTitle className='cardTitle' onClick={renderRecipePage} style={{fontSize: 'larger', fontWeight: 'bold'}}>
+                    {(recipe.name.length <= maxNameLength) ? capitaliseName(recipe.name) 
                     : capitaliseName(recipe.short_name)}</CardTitle>
                 {seeDesc ? <CardText>{capitaliseDesc(recipe.description)}</CardText> : null}
                 <CardText className='text-muted'><FontAwesomeIcon style={{marginRight: 15}} 

@@ -23,7 +23,7 @@ const Main:React.FC<Props> = ({logOut, showRecipePage, recipeToShow, handleSetRe
         {isLoggedIn ? <button className='coolButton' style={{float: 'right', marginTop: '55px', marginRight: '10%'}} onClick={logOut}>Log out</button>
         : <button className='coolButton' style={{float: 'right', marginTop: '55px', marginRight: '10%'}} onClick={() => setAuthenticate(true)}>Log in</button>}
           
-          <h1 style={{marginLeft: '17%', paddingTop: 50, paddingBottom: '30px', fontWeight: 300}}>Gutchi Recipes</h1>
+          <h1 style={{marginLeft: '15.5%', paddingTop: 50, paddingBottom: '30px', fontWeight: 300}}>Gutchi Recipes</h1>
           </div></FadeIn>
         {showRecipePage ? <RecipePage recipe={recipeToShow} handleSetRecipeToShow={handleSetRecipeToShow} 
         handleSetShowRecipePage={handleSetShowRecipePage}/> : <FadeIn><Home isLoggedIn={isLoggedIn} 

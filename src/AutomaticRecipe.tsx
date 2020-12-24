@@ -17,6 +17,7 @@ interface State {
     method: Array<string>,
     image: string,
     cooking_time: string,
+    yield: string,
     clicked: boolean,
     show_error: boolean,
     show_message: boolean,
@@ -36,6 +37,7 @@ class AutomaticRecipe extends React.Component<Props, State> {
             method: [],
             image: '',
             cooking_time: '',
+            yield: '',
             clicked: false,
             show_error: false,
             show_message: false,
@@ -90,6 +92,7 @@ class AutomaticRecipe extends React.Component<Props, State> {
                 let rawImage = jsonData.image
                 let rawCategory = jsonData.recipeCategory
                 let rawTime = jsonData.totalTime
+                let rawYield = jsonData.recipeYield
 
                 if (typeof(rawMethod) === 'string') {
                     let methodAsArray = rawMethod.split('\n').filter(step => step.length > 1)
@@ -132,6 +135,19 @@ class AutomaticRecipe extends React.Component<Props, State> {
                         if (cleanRawCategory.toLowerCase().includes(cat)) {
                             this.setState({meal_type: cat})
                         }
+                    }
+                }
+
+                if (rawYield) {
+                    console.log(rawYield)
+                    if (Array.isArray(rawYield)) {
+                        this.setState({yield: rawYield[0]})
+                    } else if (typeof rawYield === 'number') {
+                        this.setState({yield: rawYield.toString()})
+                    } else {
+                        let re = /\d+/g
+                        const y = rawYield.match(re)
+                        this.setState({yield: y})
                     }
                 }
 
@@ -186,7 +202,7 @@ class AutomaticRecipe extends React.Component<Props, State> {
                         Recipe data extracted where possible. Make sure to double-check the information before adding the recipe!</h2> : null}
                     <ManualRecipe name={this.state.name} description={this.state.description} 
                 meal_type={this.state.meal_type} ingredients={this.state.ingredients} method={this.state.method} image={this.state.image} 
-                cooking_time={this.state.cooking_time} clearAutomatic={this.clearAutomatic}/> 
+                cooking_time={this.state.cooking_time} yield={this.state.yield} clearAutomatic={this.clearAutomatic}/> 
                 </div>: null}
             </Container>    
         )

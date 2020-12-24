@@ -29,7 +29,8 @@ export interface IRecipe {
   ingredients: Array<string>,
   meal_type: string,
   image: string,
-  cooking_time: number
+  cooking_time: number,
+  yield: number
 }
 
 const App: React.FC = () => {
@@ -42,7 +43,8 @@ const App: React.FC = () => {
     ingredients: [],
     meal_type: '',
     image: '',
-    cooking_time: 0
+    cooking_time: 0,
+    yield: 0
   }
 
   const [recipes, setRecipes] = useState<Array<IRecipe>>([])
