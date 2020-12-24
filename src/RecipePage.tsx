@@ -185,7 +185,6 @@ const RecipePage: React.FC<Props> = ({recipe, handleSetRecipeToShow, handleSetSh
             if (globalQPlain) {
                 let d = plainFracToDec(globalQPlain[0])
                 let converted = getFracString(d, false)
-                console.log(converted)
                 ing = ing.replace(globalQPlain[0], converted)
             }
             let currentQ = parseInt(q[0])
@@ -230,7 +229,7 @@ const RecipePage: React.FC<Props> = ({recipe, handleSetRecipeToShow, handleSetSh
                                 setCustomYield(prev => prev+1)
                             }}>+</button>
                             <button style={{marginLeft: 20}} className='yieldButton' type='button' onClick={() => {
-                                if (customYield * 2 <= 50) {
+                                if (customYield * 2 <= 100) {
                                     setCustomYield(prev => prev * 2)
                                 }
                             }}>Double</button>
