@@ -158,7 +158,7 @@ const RecipePage: React.FC<Props> = ({recipe, handleSetRecipeToShow, handleSetSh
         let dashRe = /(&ndash;|&mdash;|-)\d/        
         ing = ing.replace(dashRe, '')
 
-        let firstQ = ing.split(' ')[0]
+        let firstQ = ing.split(' ')[0] + ' ' + ing.split(' ')[1]
 
         let plainFracRe = /\d\/\d/g
         let entityFracRe = /&frac\d\d;/g
