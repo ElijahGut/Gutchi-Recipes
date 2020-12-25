@@ -94,29 +94,39 @@ class AutomaticRecipe extends React.Component<Props, State> {
                 let rawTime = jsonData.totalTime
                 let rawYield = jsonData.recipeYield
 
-                if (typeof(rawMethod) === 'string') {
-                    let methodAsArray = rawMethod.split('\n').filter(step => step.length > 1)
-                    const finalMethod = methodAsArray.map(step => htmlDecoder.decode(step.replace(/<[^>]*>/g, '')))
-                    this.setState({method: finalMethod})
-                } else if (Array.isArray(rawMethod)) {
-                    let finalMethod:Array<string> = []
-                    for (let step of rawMethod) {
-                        if (typeof(step) === 'string') {
-                            finalMethod.push(htmlDecoder.decode(step.replace(/<[^>]*>/g, '')))
-                        } else {
-                            finalMethod.push(htmlDecoder.decode(step.text.replace(/<[^>]*>/g, '')))
+                if (rawMethod) {
+                    try {
+                        if (typeof(rawMethod) === 'string') {
+                            let methodAsArray = rawMethod.split('\n').filter(step => step.length > 1)
+                            const finalMethod = methodAsArray.map(step => htmlDecoder.decode(step.replace(/<[^>]*>/g, '')))
+                            this.setState({method: finalMethod})
+                        } else if (Array.isArray(rawMethod)) {
+                            let finalMethod:Array<string> = []
+                            for (let step of rawMethod) {
+                                if (typeof(step) === 'string') {
+                                    finalMethod.push(htmlDecoder.decode(step.replace(/<[^>]*>/g, '')))
+                                } else {
+                                    finalMethod.push(htmlDecoder.decode(step.text.replace(/<[^>]*>/g, '')))
+                                }
+                            }
+                            this.setState({method: finalMethod})
                         }
+                    } catch (error) {
+                        console.error(error)
                     }
-                    this.setState({method: finalMethod})
                 }
 
                 if (rawImage) {
-                    if (typeof(rawImage) === 'string') {
-                        this.setState({image: rawImage})
-                    } else if (Array.isArray(rawImage)) {
-                        this.setState({image: rawImage[0]})
-                    } else {
-                        this.setState({image: rawImage.url})
+                    try {
+                        if (typeof(rawImage) === 'string') {
+                            this.setState({image: rawImage})
+                        } else if (Array.isArray(rawImage)) {
+                            this.setState({image: rawImage[0]})
+                        } else {
+                            this.setState({image: rawImage.url})
+                        }
+                    } catch (error) {
+                        console.error(error)
                     }
                 } 
                 
@@ -125,30 +135,37 @@ class AutomaticRecipe extends React.Component<Props, State> {
                 }
 
                 if (rawCategory) {
-                    let cleanRawCategory;
-                    if (Array.isArray(rawCategory)) {
-                        cleanRawCategory = rawCategory.join(' ')
-                    } else {
-                        cleanRawCategory = rawCategory
-                    }
-                    for (let cat of this.cats) {
-                        if (cleanRawCategory.toLowerCase().includes(cat)) {
-                            this.setState({meal_type: cat})
+                    try {
+                        let cleanRawCategory;
+                        if (Array.isArray(rawCategory)) {
+                            cleanRawCategory = rawCategory.join(' ')
+                        } else {
+                            cleanRawCategory = rawCategory
                         }
+                        for (let cat of this.cats) {
+                            if (cleanRawCategory.toLowerCase().includes(cat)) {
+                                this.setState({meal_type: cat})
+                            }
+                        }
+                    } catch (error) {
+                        console.error(error)
                     }
                 }
 
                 if (rawYield) {
-                    console.log(rawYield)
-                    if (Array.isArray(rawYield)) {
-                        this.setState({yield: rawYield[0]})
-                    } else if (typeof rawYield === 'number') {
-                        this.setState({yield: rawYield.toString()})
-                    } else {
-                        let re = /\d+/g
-                        const y = rawYield.match(re)
-                        this.setState({yield: y})
-                    }
+                    try {
+                        if (Array.isArray(rawYield)) {
+                            this.setState({yield: rawYield[0]})
+                        } else if (typeof rawYield === 'number') {
+                            this.setState({yield: rawYield.toString()})
+                        } else {
+                            let re = /\d+/g
+                            const y = rawYield.match(re)
+                            this.setState({yield: y})
+                        }
+                    } catch (error) {
+                        console.error(error)
+                    }     
                 }
 
                 this.setState({
