@@ -3,7 +3,11 @@ import ManualRecipe from './ManualRecipe'
 import AutomaticRecipe from './AutomaticRecipe'
 import React, { useState } from 'react'
 
-const NewRecipe = () => {
+interface Props {
+    handleShowNew: any
+}
+
+const NewRecipe:React.FC<Props> = ({handleShowNew}) => {
     const [showManual, setShowManual] = useState(false)
     const [showAutomatic, setShowAutomatic] = useState(false)
 
@@ -20,12 +24,12 @@ const NewRecipe = () => {
             }}>Manually</button>
             {showManual || showAutomatic ? null : <div>
                 <button style={{marginTop: 30}} className='styledButton' onClick={() => {
-                        window.location.reload()
+                        handleShowNew(false)
                     }}>Back to browse</button>
                     <br/>
                 </div>}
             {showManual ? <ManualRecipe/> : null}
-            {showAutomatic ? <AutomaticRecipe/> : null}
+            {showAutomatic ? <AutomaticRecipe handleShowNew={handleShowNew}/> : null}
         </div>
     )
 }

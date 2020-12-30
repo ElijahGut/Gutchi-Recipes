@@ -42,6 +42,10 @@ const Home: React.FC<Props> = ({recipes, handleSetRecipeToShow, handleSetShowRec
         }
     }
 
+    const handleShowNew = (val: boolean) => {
+        setShowNew(val)
+    }
+
     const searchByString = (searchVal: string, recipes: Array<IRecipe>) => {
         const searchResults: Array<IRecipe> = recipes.filter(recipe => {            
             return recipe.name.search(searchVal) !== -1
@@ -83,7 +87,7 @@ const Home: React.FC<Props> = ({recipes, handleSetRecipeToShow, handleSetShowRec
     } else {
         return (
             <div>
-                {showNew ? <FadeIn><NewRecipe/></FadeIn>
+                {showNew ? <FadeIn><NewRecipe handleShowNew={handleShowNew}/></FadeIn>
                 : <div>
                <Search handlePress={handlePress} handleClick={handleClick} handleChange={handleChange} 
                 selectedMealType={selectedMealType} setSelectedMealType={setSelectedMealType}/>

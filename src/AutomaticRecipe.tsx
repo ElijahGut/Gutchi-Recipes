@@ -6,6 +6,7 @@ import ManualRecipe from './ManualRecipe'
 
 
 interface Props {
+    handleShowNew: any
 }
 
 interface State {
@@ -211,7 +212,7 @@ class AutomaticRecipe extends React.Component<Props, State> {
                     this.scrape(this.state.url)
                 }}>Submit URL</button>
                 {this.state.show_browse ? <div><br/><button className='styledButton' onClick={() => {
-                        window.location.reload()
+                        this.props.handleShowNew(false)
                     }}>Back to browse</button></div> : null}
                 {this.state.show_error ? <h2 style={{fontWeight: 200, paddingTop: '30px'}}>Oops! No reliable data found for this URL. Please add this recipe manually!</h2> : null}
                 {this.state.clicked && !this.state.show_error ? <div>
