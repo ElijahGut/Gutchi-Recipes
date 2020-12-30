@@ -5,6 +5,7 @@ import { Container } from 'reactstrap'
 import './App.css'
 import Step from './Step'
 import Ingredient from './Ingredient'
+import Dialog from './Dialog'
 
 interface Props {
     name?: string,
@@ -32,7 +33,8 @@ export interface State {
     preview_ingredients: boolean,
     preview_method: boolean,
     show_length_error: boolean,
-    yield: string
+    yield: string,
+    showDialog: boolean
 }
 
 class ManualRecipe extends React.Component<Props, State> {
@@ -53,7 +55,8 @@ class ManualRecipe extends React.Component<Props, State> {
             preview_ingredients: false,
             preview_method: false,
             show_length_error: false,
-            yield: this.props.yield ? this.props.yield : ''
+            yield: this.props.yield ? this.props.yield : '',
+            showDialog: false
         }
     }
 
@@ -75,7 +78,8 @@ class ManualRecipe extends React.Component<Props, State> {
             cooking_time: '',
             preview_ingredients: false,
             preview_method: false,
-            show_length_error: false
+            show_length_error: false,
+            yield: ''
         })
         if (this.props.clearAutomatic) {
             this.props.clearAutomatic()
@@ -84,9 +88,7 @@ class ManualRecipe extends React.Component<Props, State> {
 
     addRecipe = (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        window.scrollTo(0,0)
         const db = firebase.firestore()
-
         const finalMethod = this.getMethod()
         const finalIngredients = this.getIngredients()
 
@@ -116,7 +118,7 @@ class ManualRecipe extends React.Component<Props, State> {
                     yield: parseInt(this.state.yield.trim())
                 })
             }
-            alert('Recipe added successfully!')
+            this.setState({showDialog: true})
             this.resetState()
         } else {
             document.getElementById('shortNameInput')?.scrollIntoView(true)
@@ -306,6 +308,7 @@ class ManualRecipe extends React.Component<Props, State> {
                             <button className='styledButton' type='submit'>Add recipe</button>
                         </form>
                     </div>
+                    {this.state.showDialog ? <Dialog/> : null}
                     <button className='styledButton' onClick={() => {
                         window.location.reload()
                     }}>Back to browse</button>

@@ -161,7 +161,7 @@ class AutomaticRecipe extends React.Component<Props, State> {
                         } else {
                             let re = /\d+/g
                             const y = rawYield.match(re)
-                            this.setState({yield: y})
+                            this.setState({yield: y[0]})
                         }
                     } catch (error) {
                         console.error(error)

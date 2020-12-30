@@ -18,6 +18,12 @@ const NewRecipe = () => {
                 setShowManual(true)
                 setShowAutomatic(false)
             }}>Manually</button>
+            {showManual || showAutomatic ? null : <div>
+                <button style={{marginTop: 30}} className='styledButton' onClick={() => {
+                        window.location.reload()
+                    }}>Back to browse</button>
+                    <br/>
+                </div>}
             {showManual ? <ManualRecipe/> : null}
             {showAutomatic ? <AutomaticRecipe/> : null}
         </div>

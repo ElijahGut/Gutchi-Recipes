@@ -62,10 +62,16 @@
   background-color: #fff1e6;
   color: rgb(250, 112, 135);
   padding-left: 10px;
-  padding-right: 10px;
+  padding-right: 20px;
   opacity: 0;
-  width: 0;
+  width: 30px
 } 
+
+.filterIcon {
+  position: absolute;
+  top: 6px;
+  left: 32.5%;
+}
 
 .searchButton {
   opacity: 0;
