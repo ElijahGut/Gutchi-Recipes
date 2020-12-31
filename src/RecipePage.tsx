@@ -155,11 +155,25 @@ const RecipePage: React.FC<Props> = ({recipe, handleSetRecipeToShow, handleSetSh
 
     const calculateQuantity = (ing: string) => {
 
-        let dashRe = /(&ndash;|&mdash;|-)\d/        
-        ing = ing.replace(dashRe, '')
+        let dashRe = /\d+(&ndash;|&mdash;|-|\sto\s)\d+/        
+        // ing = ing.replace(dashRe, '')
+
+        let dashMatch = ing.match(dashRe)
 
         let firstQ = ing.split(' ')[0] + ' ' + ing.split(' ')[1]
 
+        if (dashMatch) {
+            let q = dashMatch[0]
+            let digMatch = q.match(/\d+/g)
+            if (digMatch) {
+                let x = parseInt(digMatch[0])
+                let y = parseInt(digMatch[1])
+                let mid = Math.round((x+y)/2)
+                ing = ing.replace(dashRe, mid.toString())
+                firstQ = mid.toString()
+            }
+        } 
+ 
         let plainFracRe = /\d\/\d/g
         let entityFracRe = /&frac\d\d;/g
         let mixedPlainFracRe = /\d\s\d\/\d/g
