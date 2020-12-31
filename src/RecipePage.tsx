@@ -156,7 +156,6 @@ const RecipePage: React.FC<Props> = ({recipe, handleSetRecipeToShow, handleSetSh
     const calculateQuantity = (ing: string) => {
 
         let dashRe = /\d+(&ndash;|&mdash;|-|\sto\s)\d+/        
-        // ing = ing.replace(dashRe, '')
 
         let dashMatch = ing.match(dashRe)
 
